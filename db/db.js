@@ -6,6 +6,12 @@ async function dbAddSubscriber(uri, first_name, last_name, email) {
   await pool.query(queryString, [...arguments]);
 }
 
+async function dbRemoveSubscriber(newsletterId, email) {
+  const queryString = 'DELETE FROM subscribers WHERE (newsletter_id = (SELECT id FROM newsletters WHERE uri = $1)) AND (email = $2)';
+  await pool.query(queryString, [...arguments]);
+}
+
 module.exports = {
   dbAddSubscriber,
+  dbRemoveSubscriber
 };
